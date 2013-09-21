@@ -14,6 +14,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXParseException;
 
 public class PGMXMLValidator {
 
@@ -49,8 +50,10 @@ public class PGMXMLValidator {
 					}
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SAXParseException e) {
+			results.add("(PARSE ERROR) Line "+e.getLineNumber()+", column "+e.getColumnNumber()+": "+e.getLocalizedMessage());
+		} catch (Exception ex) {
+			results.add("There was a error validating: "+ex.getLocalizedMessage());
 		}
 		if (results.size() < 1)
 			results.add("XML Validated. No errors found.");

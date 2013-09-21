@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.Element;
@@ -28,7 +29,7 @@ public class MainView extends JPanel implements ActionListener {
     protected JLabel label1;
     protected JLabel label2;
     protected Button submitButton;
-    protected JTextArea lines;
+    protected JTextPane lines;
 	
 	public MainView(PGMXMLValidator mainClass) {
 		super(new GridBagLayout()); 
@@ -46,7 +47,8 @@ public class MainView extends JPanel implements ActionListener {
         resultArea = new JTextArea(5, 20);
         textArea.setEditable(true);
         resultArea.setEditable(false);
-        lines = new JTextArea("1");
+        lines = new JTextPane();
+        lines.setContentType("text/html");
 		lines.setBackground(Color.LIGHT_GRAY);
 		lines.setEditable(false);
         JScrollPane scrollPane1 = new JScrollPane(textArea);
@@ -56,12 +58,13 @@ public class MainView extends JPanel implements ActionListener {
 			public String getText(){
 				int caretPosition = textArea.getDocument().getLength();
 				Element root = textArea.getDocument().getDefaultRootElement();
-				String text = "1" + System.getProperty("line.separator");
+				String text = "1" + "<br>";
 				for(int i = 2; i < root.getElementIndex( caretPosition ) + 2; i++){
-					text += i + System.getProperty("line.separator");
+					text += i + "<br>";
 				}
-				return text;
+				return text+"</strong>";
 			}
+			
 			@Override
 			public void changedUpdate(DocumentEvent de) {
 				lines.setText(getText());
